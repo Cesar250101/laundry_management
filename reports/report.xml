@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <report
+            id="action_report_laundry_order"
+            model="laundry.order"
+            string="Orden de Lavandería"
+            report_type="qweb-html"
+            name="method_laundry.report_template_laundry_order"
+            file="method_laundry.report_template_laundry_order"
+        />    
+
+        <template id="report_template_laundry_order">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="header">
+                            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+                        </div>
+                        <div class="page">
+                            <div class="row text-center">
+                                <h1 class="">Orden de Lavandería n° :<span t-field="doc.name"/></h1>
+                            </div>
+                            <div class="row">
+                                <table class="table">
+                                    <tr >
+                                        <td><strong>Cliente</strong></td>
+                                        <td><span t-field="doc.partner_id.name"/></td>
+                                        <td><strong>Fecha</strong></td>
+                                        <td><span t-field="doc.order_date"/></td>
+                                        <td><strong>Fecha Retiro</strong></td>
+                                        <td><span t-field="doc.fecha_retiro"/></td>
+                                        <td><strong>Fecha Entrega</strong></td>
+                                        <td><span t-field="doc.fecha_entrega"/></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dirección</strong></td>
+                                        <td><span t-field="doc.partner_id.street"/><span t-field="doc.partner_id.state_id"/></td>                        
+                                        <td><strong>Empleado</strong></td>
+                                        <td><span t-field="doc.laundry_person"/></td>                        
+
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <table class="table Secondary">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Prenda</th>
+                                        <th scope="col">Descrpción</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Tipo de Lavado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.order_lines" t-as="item">
+                                        <tr>
+                                            <td><span t-field="item.product_id"/></td>
+                                            <td><span t-field="item.description"/></td>
+                                            <td><span t-field="item.qty"/></td>
+                                            <td><span t-field="item.washing_type"/></td>
+                                        </tr>
+
+                                    </t>
+
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>    
+</odoo>

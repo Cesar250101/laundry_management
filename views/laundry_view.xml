@@ -16,8 +16,11 @@
                 <form string="Laundry Order" class="o_sale_order">
                 <header>
                     <button name="confirm_order" class="oe_highlight" string="Confirm Order" type="object" states="draft"/>
-                    <button name="create_invoice" class="oe_highlight" string="Create Invoice" type="object"
-                    attrs="{'invisible': ['|',('invoice_status', '=', 'invoiced'), ('state', '!=', 'done')]}"/>
+                    <button name="create_invoice" 
+                            class="oe_highlight" 
+                            string="Create Invoice" 
+                            type="object"
+                            attrs="{'invisible': ['|',('invoice_status', '=', 'invoiced'), ('state', '!=', 'done')]}"/>
                     <button name="return_dress" string="Return" class="oe_highlight" type="object" states="done"/>
                     <button name="cancel_order" string="Cancel" type="object" states="draft"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,order,done,return"/>
@@ -34,6 +37,8 @@
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
+                            <field name="plan_id" invisible="1"/>
+                            
                         </h1>
                     </div>
                     <group>
@@ -53,6 +58,13 @@
                             <field name="laundry_person" attrs="{'readonly': [('state','in',('return', 'cancel'))]}"/>
                             <field name="invoice_status" invisible="1"/>
                             <field name="sale_obj" invisible="1"/>
+                            <field name="fecha_retiro" />
+                            <field name="fecha_entrega" />
+                            <field name="tipo_pago" />
+                            <field name="pos_order_id" attrs="{'invisible':[('tipo_pago', '!=', 'boleta_ticket')]}"/>
+                            <field name="nro_pedido" attrs="{'invisible':[('tipo_pago', '!=', 'boleta_ticket')]}"/>
+                            <field name="plan_id" attrs="{'invisible':[('tipo_pago', '!=', 'plan')]}"/>
+                            <field name="nro_mr_jeff" attrs="{'invisible':[('tipo_pago', '!=', 'app')]}"/>                            
                         </group>
                     </group>
                     <notebook>

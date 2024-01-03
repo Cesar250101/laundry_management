@@ -1,0 +1,186 @@
+<odoo>
+  <data>
+
+  <!-- model.name inherit tree view -->
+  <record id="laundry_management.tree_order_view_id" model="ir.ui.view">
+    <field name="name">laundry.management.tree.order.view.id</field>
+    <field name="model">laundry.order</field>
+    <field name="inherit_id" ref="laundry_management.laundry_order_tree_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='order_date']" position="after">
+          <field name="fecha_retiro" />
+          <field name="fecha_entrega" />
+          <field name="plan_id"/>
+          <field name="nro_mr_jeff"/>
+          <field name="pos_order_id"/>
+          <field name="nro_pedido"/>
+
+        </xpath>
+
+      
+    </field>
+  </record>
+
+  <!-- model.name inherit form view -->
+  <!-- <record id="laundry_management.laundry_order_form_view" model="ir.ui.view">
+    <field name="name">laundry.management.laundry.order.form.view</field>
+    <field name="model">laundry.order</field>
+    <field name="inherit_id" ref="laundry_management.laundry_order_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='order_date']" position="after">
+          <field name="fecha_retiro" />
+          <field name="fecha_entrega" />
+          <field name="tipo_pago" />
+          <field name="pos_order_id" attrs="{'invisible':[('tipo_pago', '!=', 'boleta_ticket')]}"/>
+          <field name="nro_pedido" attrs="{'invisible':[('tipo_pago', '!=', 'boleta_ticket')]}"/>
+          <field name="plan_id" attrs="{'invisible':[('tipo_pago', '!=', 'plan')]}"/>
+          <field name="nro_mr_jeff" attrs="{'invisible':[('tipo_pago', '!=', 'app')]}"/>
+
+        </xpath>
+
+      
+    </field>
+  </record> -->
+
+    <!-- model.name inherit form view -->
+    <record id="laundry_management.partner_view" model="ir.ui.view">
+      <field name="name">laundry.management.partner.view</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+      <xpath expr="//page[@name='internal_notes']" position="after">                    
+        <page name="name" string="Planes de Lavanderia">
+          <field name="planes_lavaderia_ids" />        
+        </page> 
+      </xpath>
+      <xpath expr="//button[@name='toggle_active']" position="after">
+            <button class="oe_stat_button" type="action" name="526" groups="sales_team.group_sale_salesman" attrs="{'invisible': [('customer', '=', False)]}" icon="fa-usd">
+              <field string="Ordenes Lavandería" name="laundry_order_count" widget="statinfo"/>
+            </button>
+        </xpath>
+   
+        
+      </field>
+    </record>
+
+    <!-- model.name form view -->
+    <record id="laundry_management.view_form" model="ir.ui.view">
+      <field name="name">Planes de Lavadería</field>
+      <field name="model">laundry_management.plan</field>
+      <field name="arch" type="xml">
+        <form string="">
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="cupo_lavados" />
+              <field name="descripcion" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- model.name tree view -->
+    <record id="laundry_management.tree_view_tree" model="ir.ui.view">
+      <field name="name">laundry.management.plan.view.tree</field>
+      <field name="model">laundry_management.plan</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="cupo_lavados" />          
+        </tree>
+      </field>
+    </record>
+
+    <!-- model.name form view -->
+    <record id="laundry_management.plan_cliente_view_form" model="ir.ui.view">
+      <field name="name">Planes - Clientes</field>
+      <field name="model">laundry_management.cliente_plan</field>
+      <field name="arch" type="xml">
+        <form string="">
+          <sheet>
+            <group>
+            <group>
+              <field name="name" />
+              <field name="partner_id" />
+              <field name="plan_id" />
+              <field name="dia_retiro" />
+              <field name="dia_entrega" />              
+            </group>
+            <group>
+              <field name="fecha_inicio" />
+              <field name="fecha_final" />
+              <field name="cupo_lavados" />
+              <field name="cupo_lavados_usados" />
+              <field name="saldo_cupo_lavados" />
+            </group>  
+            </group>
+            <field name="laundry_order_ids"  widget="one2many_list" />
+          </sheet>
+        </form>
+      </field>
+    </record>    
+
+    <!-- model.name tree view -->
+    <record id="laundry_management.tree_plan_cliente_view_tree" model="ir.ui.view">
+      <field name="name">laundry.management.tree.plan.cliente.view.tree</field>
+      <field name="model">laundry_management.cliente_plan</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="partner_id" />
+            <field name="plan_id" />        
+            <field name="fecha_inicio" />        
+            <field name="fecha_final" />  
+            <field name="cupo_lavados" />  
+            <field name="cupo_lavados_usados" />  
+            <field name="dia_retiro" />
+            <field name="dia_entrega" />
+        </tree>
+      </field>
+    </record>    
+
+        <record id="action_laundry_plan" model="ir.actions.act_window">
+            <field name="name">Planes de Lavandería</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">laundry_management.plan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a New Plan.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_laundry_plan_cliente" model="ir.actions.act_window">
+            <field name="name">Planes - Clientes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">laundry_management.cliente_plan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a New Plan para un cliiente.
+                </p>
+            </field>
+        </record>
+
+        <record id="laundry_management.action_washing" model="ir.actions.act_window">
+            <field name="name">Method Washing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">washing.washing</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>  
+            <field name="domain">[(1,'=', 1)]</field>      
+        </record>
+
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="method_laundry_plan_gestion" name="Gestión Planes de Lavanderia" parent="laundry_management.laundry_management_menu" sequence="1"/>
+    <menuitem id="method_laundry_plan" name="Planes de Lavanderia" parent="method_laundry_plan_gestion" action="action_laundry_plan" sequence="1"/>
+    <menuitem id="method_laundry_plan_cliente" name="Planes - Clientes" parent="method_laundry_plan_gestion" action="action_laundry_plan_cliente" sequence="2"/>
+
+  </data>
+</odoo>

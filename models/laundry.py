@@ -1,30 +1,9 @@
 # -*- coding: utf-8 -*-
-###################################################################################
-#
-#    Cybrosys Technologies Pvt. Ltd.
-#    Copyright (C) 2018-TODAY Cybrosys Technologies(<https://www.cybrosys.com>).
-#    Author: Cybrosys Techno Solutions (<https://www.cybrosys.com>)
-#
-#    This program is free software: you can modify
-#    it under the terms of the GNU Affero General Public License (AGPL) as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-###################################################################################
 
 import time
 from datetime import datetime
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
-
+from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, Warning
 
 class LaundryManagement(models.Model):
     _name = 'laundry.order'
@@ -70,18 +49,21 @@ class LaundryManagement(models.Model):
 
     @api.multi
     def create_invoice(self):
-        if self.sale_obj.state in ['draft', 'sent']:
-            self.sale_obj.action_confirm()
-        self.invoice_status = self.sale_obj.invoice_status
-        return {
-            'name': 'Create Invoice',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'sale.advance.payment.inv',
-            'type': 'ir.actions.act_window',
-            'context': {'laundry_sale_obj': self.sale_obj.id},
-            'target': 'new'
-        }
+        if self.tipo_pago!='plan':
+            if self.sale_obj.state in ['draft', 'sent']:
+                self.sale_obj.action_confirm()
+            self.invoice_status = self.sale_obj.invoice_status
+            return {
+                'name': 'Create Invoice',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'sale.advance.payment.inv',
+                'type': 'ir.actions.act_window',
+                'context': {'laundry_sale_obj': self.sale_obj.id},
+                'target': 'new'
+            }
+        else:
+            raise Warning("Una orden pagada con cupo de plan no puede ser facturada, ya que se facturo el plan!!")
 
     @api.multi
     def return_dress(self):
@@ -198,6 +180,19 @@ class LaundryManagement(models.Model):
         ('return', 'Returned'),
         ('cancel', 'Cancelled'),
     ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='draft')
+    fecha_retiro = fields.Date(string='Fecha Retiro', default=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    fecha_entrega = fields.Date(string='Fecha Entrega', required=True)
+    tipo_pago = fields.Selection([('plan', 'Plan'),
+                                  ('boleta_ticket','Boleta/Tikect'),
+                                  ('app','Aplicación Mr. Jeff')], string='Tipo de Pago',required=True)
+    pos_order_id = fields.Many2one(comodel_name='pos.order', string='Boleta/Ticket',
+                                   domain="[('partner_id', '=', partner_id)]")
+    nro_pedido = fields.Char(string='Nro. Pedido',related='pos_order_id.pos_reference')
+    nro_mr_jeff = fields.Char(string='Nro. Mr Jeff')
+    
+    plan_id = fields.Many2one(comodel_name='laundry_management.cliente_plan', 
+                              string='Planes de Lavandería',
+                              domain="[('partner_id', '=', partner_id),('saldo_cupo_lavados','>',0)]")
 
     @api.onchange('partner_id')
     def _onchange_(self):
@@ -229,6 +224,7 @@ class LaundryManagementLine(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
+
 
 
 class WashingType(models.Model):

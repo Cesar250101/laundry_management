@@ -50,24 +50,31 @@ class DifferedCheckHistory(models.Model):
         ('return', 'Returned'),
         ('cancel', 'Cancelled'),
     ], string='Status')
-
+    fecha_retiro = fields.Date(string='Fecha Retiro')
+    fecha_entrega = fields.Date(string='Fecha Entrega')   
+    tipo_pago = fields.Selection([('plan', 'Plan'),
+                                  ('boleta_ticket','Boleta/Tikect'),
+                                  ('app','Aplicación Mr. Jeff')], string='Tipo de Pago')    
     _order = 'name desc'
 
     def _select(self):
         select_str = """
-             SELECT
-                    (select 1 ) AS nbr,
-                    t.id as id,
-                    t.name as name,
-                    t.invoice_status as invoice_status,
-                    t.partner_id as partner_id,
-                    t.partner_invoice_id as partner_invoice_id,
-                    t.partner_shipping_id as partner_shipping_id,
-                    t.order_date as order_date,
-                    t.laundry_person as laundry_person,
-                    t.total_amount as total_amount,
-                    t.currency_id as currency_id,
-                    t.state as state
+                        SELECT
+                        (select 1 ) AS nbr,
+                        t.id as id,
+                        t.name as name,
+                        t.invoice_status as invoice_status,
+                        t.partner_id as partner_id,
+                        t.partner_invoice_id as partner_invoice_id,
+                        t.partner_shipping_id as partner_shipping_id,
+                        t.order_date as order_date,
+                        t.laundry_person as laundry_person,
+                        t.total_amount as total_amount,
+                        t.currency_id as currency_id,
+                        t.state as state,
+                        t.fecha_retiro,
+                        t.fecha_entrega,
+                        t.tipo_pago 
         """
         return select_str
 
