@@ -183,8 +183,7 @@ class LaundryManagement(models.Model):
     fecha_retiro = fields.Date(string='Fecha Retiro', default=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     fecha_entrega = fields.Date(string='Fecha Entrega', required=True)
     tipo_pago = fields.Selection([('plan', 'Plan'),
-                                  ('boleta_ticket','Boleta/Tikect'),
-                                  ('app','Aplicación Mr. Jeff')], string='Tipo de Pago',required=True)
+                                  ('por_pagar','Por Pagar')], string='Tipo de Pago',required=True)
     pos_order_id = fields.Many2one(comodel_name='pos.order', string='Boleta/Ticket',
                                    domain="[('partner_id', '=', partner_id)]")
     nro_pedido = fields.Char(string='Nro. Pedido',related='pos_order_id.pos_reference')

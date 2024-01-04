@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_entregas">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+                    .cabeza{
+                        padding: 10px;
+                        float: center;
+                    }
+
+                    .detalle{
+                        padding: 10px;
+                        boder:solid 1px;
+                        float: center;
+                    }
+                    h1{
+                        font-size: 30spx;
+                        color: #333;
+                        font-family: Helvetica, Arial;                        
+                    }
+
+                </style>
+                <t t-foreach="docs" t-as="o">                
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row text-center">
+                            <h1>Reporte de entregas entre fechas</h1>
+                        </div>
+                        <div class="row" >
+                            <table class="cabeza">
+                                <tr>
+                                    <td style="text-align:left;"><strong>Fecha Desde </strong></td>
+                                    <td style="text-align:left;"><strong>: </strong></td>
+                                    <td style="text-align:left;"><strong><t t-esc="o.fecha_desde"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left;"><strong>Fecha Hasta </strong></td>
+                                    <td style="text-align:left;"><strong>: </strong></td>
+                                    <td style="text-align:left;"><strong><t t-esc="o.fecha_hasta"/></strong></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <div class="row">
+                            <table class="table table-condensed detalle" >
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left;"><strong>N° Orden</strong></th>
+                                        <th style="text-align:left;"><strong>Cliente</strong></th>
+                                        <th style="text-align:left;"><strong>Calle</strong></th>
+                                        <th style="text-align:left;"><strong>Comuna</strong></th>
+                                        <th style="text-align:left;"><strong>Ciudad</strong></th>
+                                        <th style="text-align:left;"><strong>Prenda</strong></th>
+                                        <th style="text-align:left;"><strong>Cantidad</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="entregas" t-value="o._get_entregas()"/>
+                                    <t t-if="entregas">
+                                        <t t-foreach="entregas" t-as="e">
+                                            <tr>
+                                                <td style="text-align:left;"><t t-esc="e['orden']"/></td>
+                                                <td style="text-align:left;"><t t-esc="e['cliente']"/></td>
+                                                <td style="text-align:left;"><t t-esc="e['calle']"/></td>
+                                                <td style="text-align:left;"><t t-esc="e['comuna']"/></td>
+                                                <td style="text-align:left;"><t t-esc="e['ciudad']"/></td>
+                                                <td style="text-align:left;"><t t-esc="e['prenda']"/></td>
+                                                <td style="text-align:right;"><t t-esc="e['cantidad']"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+    <record id="action_report_entregas" model="ir.actions.report">
+        <field name="name">Reporte de Entregas por Fecha</field>
+        <field name="model">entregas.report.wizard</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">laundry_management.report_entregas</field>
+        <field name="report_file">report_entregas</field>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

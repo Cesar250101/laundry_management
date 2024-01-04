@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_reporteentregas_form" model="ir.ui.view">
+        <field name="name">view.reporteentregas.form</field>
+        <field name="model">entregas.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reporte de Entregas">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="fecha_desde" />
+                            <field name="fecha_hasta" />
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report" type="object" string="Imprimir" clas="btn-primary"/>
+                    <button string="Cancelar" clas="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="reporte_entregas_action" model="ir.actions.act_window">
+        <field name="name">Reporte de Entregas</field>
+        <field name="res_model">entregas.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_reporteentregas_form" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="reporte_entregas_menu"
+        name="Reporte de Entregas por Fecha"
+        action="reporte_entregas_action"
+        groups="laundry_group_manager,laundry_group_user"
+        parent="laundry_management.laundry_report_menu"
+        sequence="10"/>
+</odoo>

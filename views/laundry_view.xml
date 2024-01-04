@@ -20,7 +20,7 @@
                             class="oe_highlight" 
                             string="Create Invoice" 
                             type="object"
-                            attrs="{'invisible': ['|',('invoice_status', '=', 'invoiced'), ('state', '!=', 'done')]}"/>
+                            attrs="{'invisible': ['|',('invoice_status', '=', 'invoiced'), ('state', '=', 'draft')]}"/>
                     <button name="return_dress" string="Return" class="oe_highlight" type="object" states="done"/>
                     <button name="cancel_order" string="Cancel" type="object" states="draft"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,order,done,return"/>

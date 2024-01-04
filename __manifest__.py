@@ -20,6 +20,8 @@
         'views/laundry_label.xml',
         'views/views.xml',
         'reports/report.xml',
+        'wizard/entregas_reporte_view.xml',
+        'reports/reporte_entregas.xml'
     ],
     'images': ['static/description/banner.jpg'],
     'license': 'AGPL-3',
