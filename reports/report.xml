@@ -7,8 +7,8 @@
             model="laundry.order"
             string="Orden de Lavandería"
             report_type="qweb-html"
-            name="method_laundry.report_template_laundry_order"
-            file="method_laundry.report_template_laundry_order"
+            name="laundry_management.report_template_laundry_order"
+            file="laundry_management.report_template_laundry_order"
         />    
 
         <template id="report_template_laundry_order">

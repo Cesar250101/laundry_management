@@ -25,8 +25,8 @@
                 <t t-foreach="docs" t-as="o">                
                     <div class="page">
                         <div class="oe_structure"/>
-                        <div class="row text-center">
-                            <h1>Reporte de entregas entre fechas</h1>
+                        <div class="row text-center orders_vertical_align custom_value">
+                            <h1 class="orders_vertical_align">Reporte de entregas entre fechas</h1>
                         </div>
                         <div class="row" >
                             <table class="cabeza">

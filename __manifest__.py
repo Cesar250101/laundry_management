@@ -21,7 +21,9 @@
         'views/views.xml',
         'reports/report.xml',
         'wizard/entregas_reporte_view.xml',
-        'reports/reporte_entregas.xml'
+        'reports/reporte_entregas.xml',
+        'reports/laundry_report_entregas_pivot.xml',
+        'views/assets.xml',
     ],
     'images': ['static/description/banner.jpg'],
     'license': 'AGPL-3',

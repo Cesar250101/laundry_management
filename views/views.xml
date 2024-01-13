@@ -10,10 +10,10 @@
         <xpath expr="//field[@name='order_date']" position="after">
           <field name="fecha_retiro" />
           <field name="fecha_entrega" />
-          <field name="plan_id"/>
-          <field name="nro_mr_jeff"/>
+          <!-- <field name="plan_id"/> -->
+          <!-- <field name="nro_mr_jeff"/>
           <field name="pos_order_id"/>
-          <field name="nro_pedido"/>
+          <field name="nro_pedido"/> -->
 
         </xpath>
 

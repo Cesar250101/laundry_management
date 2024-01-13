@@ -30,7 +30,7 @@
                         <button name='action_view_laundry_works' class="oe_stat_button" type="object" icon="fa-money" states="order,done,return,process">
                             <field string="Works" name="work_count" widget="statinfo" />
                         </button>
-                        <button name='action_view_invoice' class="oe_stat_button" type="object" icon="fa-money" states="done,return">
+                        <button name='action_view_invoice' class="oe_stat_button" type="object" icon="fa-money" states="done,return,order">
                             <field string="Invoice" name="invoice_count" widget="statinfo" />
                         </button>
                     </div>
@@ -108,7 +108,23 @@
                     <field name="laundry_person"/>
                     <field name="total_amount"/>
                     <field name="state"/>
+                    <field name="invoice_status"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="laundry_order_search_view" model="ir.ui.view">
+            <field name="name">laundry.order.search</field>
+            <field name="model">laundry.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_by_invoice_status" string="Status Facturación" icon="terp-project" context="{'group_by':'invoice_status'}"/>
+                        <filter name="group_by_state" string="Status Orden" icon="terp-project" context="{'group_by':'state'}"/>
+                    </group>                    
+                </search>
             </field>
         </record>
 
@@ -126,7 +142,7 @@
             </field>
         </record>
 
-        <menuitem name="Laundry Management" id="laundry_management_menu" icon="fa-car"/>
+        <menuitem name="Gestión de lavandería" id="laundry_management_menu" web_icon="laundry_management/static/src/img/icon.jpg" icon="fa-car"/>
         <menuitem id="laundry_management_sub_menu" name="Laundry Management" parent="laundry_management_menu" sequence="1"/>
         <menuitem id="laundry_management_order" name="Laundry Order" parent="laundry_management_sub_menu" action="action_laundry_order" sequence="1"/>
 

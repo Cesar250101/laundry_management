@@ -147,12 +147,12 @@ class LaundryManagement(models.Model):
 
             return value
 
-    name = fields.Char(string="Label", copy=False)
+    name = fields.Char(string="N° Orden", copy=False)
     invoice_status = fields.Selection([
-        ('upselling', 'Upselling Opportunity'),
-        ('invoiced', 'Fully Invoiced'),
-        ('to invoice', 'To Invoice'),
-        ('no', 'Nothing to Invoice')
+        ('upselling', 'Oportunidad de venta adicional'),
+        ('invoiced', 'Totalmente facturado'),
+        ('to invoice', 'Para Facturar'),
+        ('no', 'No Facturado')
     ], string='Estado Facturación', invisible=1, related='sale_obj.invoice_status', store=True)
     sale_obj = fields.Many2one('sale.order', invisible=1)
     invoice_count = fields.Integer(compute='_invoice_count', string='# Factura')
@@ -174,9 +174,9 @@ class LaundryManagement(models.Model):
     note = fields.Text(string='Términos y Condiciones')
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('order', 'Laundry Order'),
+        ('order', 'En Proceso'),
         ('process', 'Processing'),
-        ('done', 'Done'),
+        ('done', 'Terminado'),
         ('return', 'Returned'),
         ('cancel', 'Cancelled'),
     ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='draft')

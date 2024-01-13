@@ -1,5 +1,7 @@
 from odoo import api,fields,models, _
 from datetime import datetime
+import logging
+_logger = logging.getLogger(__name__)
 
 class ReporteEntregas(models.TransientModel):
     _name = 'entregas.report.wizard'
@@ -10,6 +12,7 @@ class ReporteEntregas(models.TransientModel):
     
     @api.multi
     def action_print_report(self):
+        _logger.warning("Fechas " +str(self.fecha_desde.isoformat())+" "+str(self.fecha_hasta.isoformat()))
         data={
             'ids': self.ids,
             'model': self._name,
