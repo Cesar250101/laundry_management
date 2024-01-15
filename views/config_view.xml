@@ -86,7 +86,7 @@
         <menuitem id="laundry_customer" name="Customers" parent="laundry_config_menu" action="base.action_partner_customer_form" sequence="1"/>
         <menuitem id="laundry_products" name="Products" parent="laundry_config_menu" action="product.product_normal_action_sell" sequence="2"/>
         <menuitem id="laundry_washing_type" name="Washing Type" parent="laundry_config_menu" action="action_washing_type" sequence="3"/>
-        <menuitem id="laundry_washing_work" name="Additional Works" parent="laundry_config_menu" action="action_washing_work" sequence="4"/>
+        <menuitem id="laundry_washing_work" name="Trabajos Adicionales" parent="laundry_config_menu" action="action_washing_work" sequence="4"/>
 
     </data>
 </odoo>
